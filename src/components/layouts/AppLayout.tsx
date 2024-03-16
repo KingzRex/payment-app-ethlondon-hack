@@ -2,17 +2,18 @@ import type { FC, PropsWithChildren } from "react";
 import { Hamburger } from "../svg-icons";
 import Link from "next/link";
 import { APP_NAME } from "@/utils/constants";
+import type { UrlObject } from "url";
 
 interface AppLayoutProps extends PropsWithChildren {
-  previousPathName?: string;
+  previousHref?: string | UrlObject;
 }
 
-const AppLayout: FC<AppLayoutProps> = ({ children, previousPathName }) => {
+const AppLayout: FC<AppLayoutProps> = ({ children, previousHref }) => {
   return (
     <div className="mx-auto flex w-screen flex-col gap-6 px-6 py-10 sm:my-5 sm:max-w-[390px] sm:border">
       <header className="flex justify-between">
-        {previousPathName ? (
-          <Link href={previousPathName}>
+        {previousHref ? (
+          <Link className="ml-[-7.5px]" href={previousHref}>
             <svg
               width="24"
               height="24"
