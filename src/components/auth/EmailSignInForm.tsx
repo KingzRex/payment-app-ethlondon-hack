@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import Image from "next/image";
 import React, { type FC } from "react";
 import services from "@/images/service.png";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type SignInSchemaType, signInSchema } from "@/data/schema/signInSchma";
+import { type SignInSchemaType, signInSchema } from "@/data/schema/signInSchema";
 import { TextInput } from "../form/TextInput";
 import { SpinningLoader } from "../loaders/SpinninLoader";
 
@@ -49,7 +50,7 @@ const SignInForm: FC<SignInFormProps> = ({ handleSignIn }) => {
             type="email"
           />
           <button
-            className="flex items-center justify-center rounded-[2rem] bg-pd-blue px-[4.5rem] py-4 font-medium text-white disabled:opacity-60"
+            className="flex items-center justify-center rounded-[2rem] bg-pd-blue px-[4.5rem] py-3 font-medium text-white disabled:opacity-60"
             type="submit"
             disabled={isSubmitting}
           >
