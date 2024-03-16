@@ -19,6 +19,7 @@ export const env = createEnv({
     NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: z.string(),
     NEXT_PUBLIC_PIMLICO_API_KEY: z.string(),
     NEXT_PUBLIC_PAYMENTS_API_URL: z.string().url()
+    NEXT_PUBLIC_WEB3_ENV: z.enum(["testnet", "mainnet"]),
   },
 
   /**
@@ -30,6 +31,8 @@ export const env = createEnv({
     NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
     NEXT_PUBLIC_PIMLICO_API_KEY: process.env.NEXT_PUBLIC_PIMLICO_API_KEY,  
     NEXT_PUBLIC_PAYMENTS_API_URL: process.env.NEXT_PUBLIC_PAYMENTS_API_URL,
+    NEXT_PUBLIC_WEB3_ENV: process.env.NEXT_PUBLIC_WEB3_ENV,
+  },
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
