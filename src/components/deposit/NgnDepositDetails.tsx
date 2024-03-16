@@ -1,9 +1,10 @@
 import { beautifyNumericValue } from "@/utils/formatters";
 import { CopyIcon } from "@dynamic-labs/sdk-react-core";
 import Link from "next/link";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { toast } from "react-toastify";
 import { useCopyToClipboard } from "usehooks-ts";
+import { SpinningLoader } from "../loaders/SpinninLoader";
 
 interface NgnDepositDetailsProps {
   amount: number;
@@ -12,13 +13,17 @@ interface NgnDepositDetailsProps {
     accountName: string;
     accountNumber: string;
   };
+  handleConfirmDeposit: () => Promise<void>;
 }
 
 const NgnDepositDetails: FC<NgnDepositDetailsProps> = ({
   amount,
   bankDetails,
+  handleConfirmDeposit,
 }) => {
   const [_, copyText] = useCopyToClipboard();
+
+  const [confirming, setConfirming] = useState(false);
 
   return (
     <section className="flex flex-col gap-10">
@@ -64,19 +69,22 @@ const NgnDepositDetails: FC<NgnDepositDetailsProps> = ({
         <div className="flex flex-col items-center gap-4">
           <button
             onClick={async () => {
-              await copyText(`
-                ${bankDetails.accountNumber} \n
-                ${bankDetails.accountName} \n
-                ${bankDetails.bankName}
-              `);
+              try {
+                setConfirming(true);
 
-              toast.success("Account details copied");
+                await handleConfirmDeposit();
+
+                toast.success("Deposit confirmed");
+              } catch (error) {
+                toast.error("Error confirming deposit");
+              } finally {
+                setConfirming(false);
+              }
             }}
             className="mx-auto flex max-w-[242px] items-center justify-center gap-2.5 rounded-[2rem] bg-pd-blue px-[1.5rem] py-3 font-sans font-medium text-white disabled:opacity-60"
             type="button"
           >
-            <CopyIcon />
-            <span>Copy Account Details</span>
+            {confirming ? <SpinningLoader /> : <span>Confirm</span>}
           </button>
           <Link href="/dashboard" className="underline">
             Go to Home

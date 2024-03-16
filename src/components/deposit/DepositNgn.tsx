@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,14 +20,14 @@ const DepositNgn: FC<DepositNgnProps> = ({
   fiatRate,
   handleContinue,
   feePercent,
-  defaultAmount
+  defaultAmount,
 }) => {
   const formMethods = useForm<DepositFiatData>({
     resolver: zodResolver(depositFiatSchema),
     mode: "onSubmit",
     defaultValues: {
       amount: defaultAmount,
-    }
+    },
   });
 
   const {
@@ -84,7 +81,7 @@ const DepositNgn: FC<DepositNgnProps> = ({
                     {beautifyNumericValue(amount * feePercent, 2)} NGN/
                     {beautifyNumericValue(
                       (amount * feePercent) / fiatRate,
-                      2,
+                      4,
                     )}{" "}
                     USDC
                   </span>
@@ -94,7 +91,7 @@ const DepositNgn: FC<DepositNgnProps> = ({
                   <span>
                     {beautifyNumericValue(
                       (amount - amount * feePercent) / fiatRate,
-                      2,
+                      4,
                     )}{" "}
                     USDC
                   </span>
