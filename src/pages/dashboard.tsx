@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Dashboard from "@/components/Dashboard";
 import type { Transaction } from "@/types";
 import React from "react";
