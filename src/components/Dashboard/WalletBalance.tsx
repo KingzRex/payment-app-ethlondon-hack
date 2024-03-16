@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { type FC } from "react";
 import useSWR from "swr";
 import { DashboardVector, Eyes, USDCLogo } from "../svg-icons";

@@ -1,12 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import SignInForm from "@/components/auth/EmailSignInForm";
 import { APP_NAME } from "@/utils/constants";
 import React, { useState } from "react";
-import { useConnectWithEmailOtp } from "@dynamic-labs/sdk-react-core";
+import {
+  useConnectWithEmailOtp,
+  getAuthToken,
+  useEmbeddedWallet,
+} from "@dynamic-labs/sdk-react-core";
 import { toast } from "react-toastify";
 import EmailVerificationDialog from "@/components/auth/EmailVerificationDialog";
+import { validateAuthToken } from "@/data/adapters/browser/auth/validateAuthToken";
+import { useRouter } from "next/router";
 
 const SignInPage = () => {
   const { connectWithEmail, verifyOneTimePassword } = useConnectWithEmailOtp();
+  const { userHasEmbeddedWallet, createEmbeddedWallet } = useEmbeddedWallet();
+
+  const router = useRouter();
 
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,12 +36,35 @@ const SignInPage = () => {
   };
 
   const handleVerifyOtp = async (otp: string) => {
+    const verifyingToastId = toast.loading("Verifying Email");
+
     try {
       await verifyOneTimePassword(otp);
-      toast.success("Email verified");
+
+      if (!userHasEmbeddedWallet()) {
+        toast.dismiss(verifyingToastId);
+        
+        toast.loading("Creating wallet...", {
+          toastId: verifyingToastId,
+        });
+
+        await createEmbeddedWallet();
+      }
+
+      const authToken = (await getAuthToken()) as string;
+
+      const isAuthenticated = await validateAuthToken(authToken);
+
       setShowOtpModal(false);
+      toast.dismiss(verifyingToastId);
+
+      if (isAuthenticated) {
+        await router.push("/dashboard");
+        toast.success("Welcome");
+      }
     } catch (error) {
-      console.error(error);
+      toast.dismiss(verifyingToastId);
+
       toast.error("Invalid OTP");
     }
   };
