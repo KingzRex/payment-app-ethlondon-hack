@@ -15,10 +15,10 @@ export const env = createEnv({
    * isn't built with invalid env vars. To expose them to the client, prefix them with
    * `NEXT_PUBLIC_`.
    */
- 
   client: {    
-      NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: z.string(),
-      NEXT_PUBLIC_PIMLICO_API_KEY: z.string(),
+    NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: z.string(),
+    NEXT_PUBLIC_PIMLICO_API_KEY: z.string(),
+    NEXT_PUBLIC_PAYMENTS_API_URL: z.string().url()
   },
 
   /**
@@ -28,7 +28,8 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
-    NEXT_PUBLIC_PIMLICO_API_KEY: process.env.NEXT_PUBLIC_PIMLICO_API_KEY 
+    NEXT_PUBLIC_PIMLICO_API_KEY: process.env.NEXT_PUBLIC_PIMLICO_API_KEY,  
+    NEXT_PUBLIC_PAYMENTS_API_URL: process.env.NEXT_PUBLIC_PAYMENTS_API_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
